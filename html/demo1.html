@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/swiper-3.4.1.min.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <style>
+        .swiper-container{
+            width:200px;
+            height: 200px;
+        }
+        .swiper-slide{
+            display: flex;
+            align-items:center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">slide1</div>
+        <div class="swiper-slide">slide2</div>
+        <div class="swiper-slide">slide3</div>
+    </div>
+    <!-- 如果需要导航按钮 -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+</div>
+<div class="test">12</div>
+<div class="demo">345</div>
+
+<script src="../js/jquery-3.1.1.js"></script>
+<script src="../js/swiper-3.4.1.min.js"></script>
+<script>
+    // onload以后初始化一个swiper 参数N多 不一一列举
+    window.onload = function(){
+        // 第一个参数为 初始化轮播的容器
+        var swiper1 = new Swiper('.swiper-container', {
+            initialSlide: 1, //初始化时候的slide索引
+            //direction: 'vertical', 滑动的方向
+            speed: 1000, //carousel切换的时间
+            autoplay: 2000, //自动切换的时间间隔 也可以通过给对应swiper-slide设置data-swiper-autoplay="2000"设置单个停留时间
+            loop: true,  //开启重复模式
+            autoplayDisableOnInteraction: false, //用户操作后不会自动停止操作 默认是true
+            //autoplayStopOnLast: true, //到最后一个slide时候停止切换 TODO loop下无效
+            boolean: true, // 拖动呈手抓状态  默认是false
+            parallax : true, //视差效果   // TODO 需在swiper-wrapper增加父元素设置背景图以及属性 data-swiper-parallax="-23%" data-swiper-parallax-duration="3000"
+            // 如果需要前进后退按钮
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev'
+        });
+    };
+/*********************************************************************************/
+    /** 结合animate.css实现丰富动画效果
+     * animated：动画function和时间
+     * headShake：动画效果
+     * infinite：重复
+     */
+    $(".test").addClass("animated headShake infinite");
+
+
+    /** 监听到动画结束
+     *  $('#yourElement').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', doSomething);
+     *  当然最好封装一下
+     */
+    $.fn.extend({
+        animateCss: function (animationName, cb) {
+            var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+            this.addClass('animated ' + animationName).one(animationEnd, function() {
+                //$(this).removeClass('animated ' + animationName);
+                cb();
+            });
+        }
+    });
+    $(".demo").addClass("animated headShake").animateCss("headShake",function(){
+        console.log('小伙子，这个动画完成了');
+    });
+</script>
+</body>
+</html>
